@@ -124,13 +124,15 @@ O validador confere, entre outros pontos:
 - série mensal, ranking de categorias e Curva ABC
 - regressão, R² e previsões
 - validação temporal retrospectiva
-- correspondência entre JSON analítico, dashboard e artefato de referência
+- correspondência entre o JSON analítico, o objeto analítico incorporado ao dashboard e o artefato de referência
 
 Uma execução consistente termina com:
 
 ```text
 VALIDAÇÃO CONCLUÍDA: APROVADO
 ```
+
+Esse status significa que as verificações automatizadas implementadas em `validar_pipeline.py` foram concluídas sem divergências materiais nos itens efetivamente conferidos. Ele não constitui certificação exaustiva de cada transformação intermediária do CSV para o SQLite nem de cada valor ou elemento visual exibido pelo dashboard.
 
 Os registros da execução de referência, o resumo dos testes negativos e os resumos SHA-256 dos arquivos estão em `logs/`.
 

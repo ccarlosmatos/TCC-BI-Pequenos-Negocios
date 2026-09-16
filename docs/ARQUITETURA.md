@@ -40,7 +40,7 @@ erDiagram
     }
 
     FATO_VENDAS {
-      int id_venda_origem
+      string id_venda_origem
       int id_tempo FK
       int id_produto FK
       int quantidade

@@ -46,6 +46,8 @@ As métricas são calculadas antes do arredondamento das previsões para centavo
 
 A validação exige CSV bruto, banco SQLite, JSON analítico, arquivo de backtest, dashboard e JSON de referência. O programa recalcula indicadores, séries, Curva ABC, regressão e métricas do teste retrospectivo. Uma divergência material ou a ausência de qualquer artefato obrigatório encerra a validação com status de falha.
 
+O status **APROVADO** se restringe às verificações automatizadas implementadas em `validar_pipeline.py` e aos itens efetivamente conferidos por essa rotina. Ele não representa reconciliação exaustiva de cada transformação intermediária do CSV para a tabela fato, nem certificação individual de cada valor ou elemento visual do dashboard.
+
 ## Testes negativos
 
 A versão final também foi submetida a sete cenários de falha controlada, sempre em cópias descartáveis do projeto: banco adulterado, ausência do JSON de referência, ausência do arquivo de backtest, ausência do dashboard, ausência do CSV bruto, ausência do banco SQLite e reintrodução de uma grafia divergente da loja. O validador encerrou com status de falha em todos os sete casos.
