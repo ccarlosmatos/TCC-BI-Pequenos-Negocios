@@ -1,10 +1,10 @@
-"""Validação temporal simples dos modelos de referência.
+"""Validação temporal retrospectiva dos dois modelos de referência.
 
-Usa os últimos três meses observados (outubro a dezembro de 2025) como
-conjunto de teste. Os modelos são ajustados somente com janeiro de 2024 a
-setembro de 2025. A regressão produz três passos à frente. A média móvel usa
-a média dos três últimos meses do conjunto de treino como referência fixa
-para os três meses de teste.
+Os últimos três meses observados, outubro a dezembro de 2025, formam a janela
+de teste. Os modelos são ajustados apenas com janeiro de 2024 a setembro de
+2025. As métricas são calculadas com as previsões em precisão integral. O
+arredondamento para centavos ocorre somente na apresentação das previsões e
+das métricas publicadas.
 
 Saída: data/processed/validacao_previsao.json
 """
@@ -48,9 +48,12 @@ def main():
 
     b0, b1 = regressao_linear(treino)
     n = len(treino)
-    prev_reg = [round(b0 + b1 * (n + i), 2) for i in range(3)]
-    media3 = round(statistics.mean(treino[-3:]), 2)
-    prev_mm = [media3] * 3
+    prev_reg_raw = [b0 + b1 * (n + i) for i in range(3)]
+    prev_reg_publicada = [round(v, 2) for v in prev_reg_raw]
+
+    media3_raw = statistics.mean(treino[-3:])
+    prev_mm_raw = [media3_raw] * 3
+    prev_mm_publicada = [round(v, 2) for v in prev_mm_raw]
 
     resultado = {
         "metodo": "holdout_temporal_3_meses",
@@ -59,14 +62,17 @@ def main():
         "meses_teste": meses_teste,
         "realizado": reais,
         "regressao_linear": {
-            "previsoes": prev_reg,
-            "metricas": metricas(reais, prev_reg),
+            "previsoes": prev_reg_publicada,
+            "metricas": metricas(reais, prev_reg_raw),
         },
         "media_movel_3m": {
-            "previsoes": prev_mm,
-            "metricas": metricas(reais, prev_mm),
+            "previsoes": prev_mm_publicada,
+            "metricas": metricas(reais, prev_mm_raw),
         },
-        "observacao": "Validação retrospectiva simples. A amostra é curta e os resultados não substituem avaliação em série mais longa ou dados reais.",
+        "observacao": (
+            "Validação retrospectiva simples com três observações de teste. "
+            "As métricas são calculadas antes do arredondamento das previsões para centavos."
+        ),
     }
     OUT_JSON.parent.mkdir(parents=True, exist_ok=True)
     OUT_JSON.write_text(json.dumps(resultado, ensure_ascii=False, indent=2), encoding="utf-8")

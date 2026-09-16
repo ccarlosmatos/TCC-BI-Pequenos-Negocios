@@ -44,5 +44,5 @@
       "mape_pct": 27.23
     }
   },
-  "observacao": "Validação retrospectiva simples. A amostra é curta e os resultados não substituem avaliação em série mais longa ou dados reais."
+  "observacao": "Validação retrospectiva simples com três observações de teste. As métricas são calculadas antes do arredondamento das previsões para centavos."
 }

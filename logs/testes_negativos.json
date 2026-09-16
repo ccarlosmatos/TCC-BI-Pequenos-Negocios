@@ -1,0 +1,44 @@
+[
+  {
+    "teste": "db_adulterado",
+    "returncode": 1,
+    "detectou_falha": true,
+    "ultima_linha": "VALIDAÇÃO CONCLUÍDA: FALHA"
+  },
+  {
+    "teste": "sem_referencia",
+    "returncode": 1,
+    "detectou_falha": true,
+    "ultima_linha": "VALIDAÇÃO CONCLUÍDA: FALHA"
+  },
+  {
+    "teste": "sem_backtest",
+    "returncode": 1,
+    "detectou_falha": true,
+    "ultima_linha": "VALIDAÇÃO CONCLUÍDA: FALHA"
+  },
+  {
+    "teste": "sem_dashboard",
+    "returncode": 1,
+    "detectou_falha": true,
+    "ultima_linha": "VALIDAÇÃO CONCLUÍDA: FALHA"
+  },
+  {
+    "teste": "sem_csv",
+    "returncode": 1,
+    "detectou_falha": true,
+    "ultima_linha": "VALIDAÇÃO CONCLUÍDA: FALHA"
+  },
+  {
+    "teste": "sem_banco",
+    "returncode": 1,
+    "detectou_falha": true,
+    "ultima_linha": "VALIDAÇÃO CONCLUÍDA: FALHA"
+  },
+  {
+    "teste": "loja_divergente",
+    "returncode": 1,
+    "detectou_falha": true,
+    "ultima_linha": "VALIDAÇÃO CONCLUÍDA: FALHA"
+  }
+]

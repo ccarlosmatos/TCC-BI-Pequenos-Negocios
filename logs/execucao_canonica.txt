@@ -1,0 +1,119 @@
+Gerado data/raw/vendas_bruto.csv com 7429 linhas (incluindo duplicidades propositais).
+=== Relatório de Qualidade de Dados (ETL) ===
+linhas_brutas: 7429
+linhas_data_invalida_removidas: 0
+linhas_duplicadas_removidas: 109
+linhas_finais: 7320
+campos_categoria_ausentes_pre_etl: 310
+registros_finais_com_categoria_reconstituida: 305
+grafias_loja_divergentes_na_base_bruta: 61
+registros_finais_com_loja_padronizada: 59
+lojas_distintas_apos_padronizacao: 1
+
+Modelo dimensional gravado em data/processed/dw_vendas.sqlite3
+dim_tempo: 731 linhas | dim_categoria: 5 linhas | dim_produto: 30 linhas | fato_vendas: 7320 linhas
+=== KPIs Gerais ===
+faturamento_bruto: 1606086.63
+total_devolucoes: 54767.59
+faturamento_liquido: 1551319.04
+n_transacoes: 7320
+itens_vendidos: 14584
+ticket_medio: 211.93
+
+=== Ranking de Categorias (faturamento) ===
+Casa e Utilidades: R$ 365,878.35
+Eletrônicos: R$ 325,570.89
+Papelaria: R$ 322,288.26
+Alimentos: R$ 276,667.34
+Vestuário: R$ 260,914.20
+
+=== Curva ABC (classe A = ~80% do faturamento) ===
+Classe A: 15 produtos | Classe B: 7 produtos | Classe C: 8 produtos (total 30 produtos)
+Top 5 produtos:
+  Escova de Limpeza: R$ 111,542.26 (classe A)
+  Camiseta Básica: R$ 103,605.04 (classe A)
+  Kit Panelas Antiaderente: R$ 103,213.47 (classe A)
+  Caderno Universitário: R$ 96,696.41 (classe A)
+  Power Bank 10000mAh: R$ 95,622.41 (classe A)
+
+=== Previsão de Faturamento (1º trimestre de 2026) ===
+Regressão linear: intercepto=47484.19, inclinação=1491.66, R²=0.305
+  2026-01: regressão linear = R$ 83,284.05 | média móvel 3m = R$ 88,958.73
+  2026-02: regressão linear = R$ 84,775.72 | média móvel 3m = R$ 88,958.73
+  2026-03: regressão linear = R$ 86,267.38 | média móvel 3m = R$ 88,958.73
+
+Dados exportados para data/processed/dashboard_data.json
+dashboard.html gerado com sucesso.
+=== Validação temporal: outubro a dezembro de 2025 ===
+regressao_linear: MAE=R$ 23,264.63 | RMSE=R$ 24,684.15 | MAPE=25.21%
+media_movel_3m: MAE=R$ 27,777.72 | RMSE=R$ 33,533.21 | MAPE=27.23%
+Arquivo gravado em data/processed/validacao_previsao.json
+[OK] Artefato obrigatório: CSV bruto - data/raw/vendas_bruto.csv
+[OK] Artefato obrigatório: Banco SQLite - data/processed/dw_vendas.sqlite3
+[OK] Artefato obrigatório: JSON analítico - data/processed/dashboard_data.json
+[OK] Artefato obrigatório: Validação retrospectiva - data/processed/validacao_previsao.json
+[OK] Artefato obrigatório: Dashboard HTML - dashboard.html
+[OK] Artefato obrigatório: JSON de referência - reference/dashboard_data_referencia.json
+[OK] Cabeçalho do CSV bruto - ['id_venda', 'data_venda', 'produto', 'categoria', 'quantidade', 'preco_unitario', 'forma_pagamento', 'loja']
+[OK] Quantidade de registros brutos - 7429
+[OK] Duplicidades exatas no CSV bruto - 109
+[OK] Campos de categoria ausentes no CSV bruto - 310
+[OK] Registros finais derivados de linhas com categoria ausente - 305
+[OK] JSON analítico idêntico ao artefato de referência
+[OK] Estrutura de primeiro nível do JSON analítico - ['curva_abc', 'kpis', 'previsao', 'ranking_categorias', 'serie_mensal']
+[OK] Quatro tabelas do modelo dimensional - ['dim_categoria', 'dim_produto', 'dim_tempo', 'fato_vendas']
+[OK] Quantidade de linhas da fato - 7320
+[OK] Identificadores distintos de venda - 7320
+[OK] Unicidade de id_venda_origem na base sintética - linhas=7320, ids=7320
+[OK] Quantidade de registros em dim_tempo - 731
+[OK] Quantidade de registros em dim_categoria - 5
+[OK] Quantidade de registros em dim_produto - 30
+[OK] Movimentos positivos - 7094
+[OK] Movimentos de devolução - 226
+[OK] Identificação da loja padronizada - ['Matriz - Recife']
+[OK] Integridade referencial lógica - tempo=0, produto=0, categoria=0
+[OK] KPI faturamento_bruto recalculado do SQLite - 1606086.63
+[OK] SQLite x JSON: faturamento_bruto - db=1606086.63, json=1606086.63
+[OK] KPI total_devolucoes recalculado do SQLite - 54767.59
+[OK] SQLite x JSON: total_devolucoes - db=54767.59, json=54767.59
+[OK] KPI faturamento_liquido recalculado do SQLite - 1551319.04
+[OK] SQLite x JSON: faturamento_liquido - db=1551319.04, json=1551319.04
+[OK] KPI ticket_medio recalculado do SQLite - 211.93
+[OK] SQLite x JSON: ticket_medio - db=211.93, json=211.93
+[OK] KPI n_transacoes recalculado do SQLite - 7320
+[OK] SQLite x JSON: n_transacoes - db=7320, json=7320
+[OK] KPI itens_vendidos recalculado do SQLite - 14584
+[OK] SQLite x JSON: itens_vendidos - db=14584, json=14584
+[OK] Série mensal recalculada do SQLite coincide com JSON
+[OK] Série mensal com 24 observações - 24
+[OK] Ranking de categorias recalculado do SQLite coincide com JSON
+[OK] Curva ABC recalculada do SQLite coincide com JSON
+[OK] R² recalculado a partir do SQLite - 0.305
+[OK] Intercepto recalculado coincide com JSON
+[OK] Inclinação recalculada coincide com JSON
+[OK] R² recalculado coincide com JSON
+[OK] Previsão por regressão recalculada coincide com JSON
+[OK] Previsão por média móvel recalculada coincide com JSON
+[OK] Meses do backtest coincidem com a série do banco
+[OK] Valores realizados do backtest coincidem com o banco
+[OK] Previsões do backtest por regressão recalculadas
+[OK] Previsões do backtest por média móvel recalculadas
+[OK] Métricas do backtest por regressão recalculadas - {'mae': 23264.63, 'rmse': 24684.15, 'mape_pct': 25.21}
+[OK] Métricas do backtest por média móvel recalculadas - {'mae': 27777.72, 'rmse': 33533.21, 'mape_pct': 27.23}
+[OK] Dados incorporados ao dashboard idênticos ao JSON analítico
+
+VALIDAÇÃO CONCLUÍDA: APROVADO
+
+>>> Executando scripts/01_gerar_dados_brutos.py
+
+>>> Executando scripts/02_etl.py
+
+>>> Executando scripts/03_analise_previsao.py
+
+>>> Executando scripts/04_gerar_dashboard.py
+
+>>> Executando scripts/05_validar_previsao.py
+
+>>> Executando validar_pipeline.py
+
+Pipeline executado e validado com sucesso.

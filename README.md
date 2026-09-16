@@ -2,15 +2,16 @@
 
 **Autor:** Carlos Fernando Araújo Matos  
 **Curso:** Especialização em Business Intelligence, Business Analytics e Big Data Aplicados a Negócios — FAFIRE  
-**Cenário:** Nordeste Variedades Ltda. (empresa fictícia; dados sintéticos)
+**Cenário:** Nordeste Variedades Ltda. (empresa fictícia, com dados sintéticos)  
+**Versão de referência:** 1.0 — setembro de 2026
 
-Este repositório contém o código-fonte, os dados gerados, o banco SQLite, os resultados analíticos e os arquivos necessários para reproduzir o artefato apresentado no TCC.
+Este repositório reúne o código-fonte, os dados sintéticos, o banco SQLite, os resultados analíticos e os arquivos necessários para reproduzir o artefato apresentado no Trabalho de Conclusão de Curso **Business Intelligence aplicado a pequenos negócios: desenvolvimento de um pipeline de ETL, modelagem dimensional e dashboard analítico para apoio à decisão**.
 
 ## Reprodutibilidade
 
-Os quatro scripts principais do pipeline estao disponiveis em `scripts/` e foram revisados para manter alinhamento entre codigo, documentacao e resultados apresentados no TCC. O repositorio inclui ainda uma rotina de validacao que confere estrutura, integridade e indicadores centrais.
+Os scripts do pipeline estão disponíveis em `scripts/`. A execução usa semente aleatória fixa (`random.seed(42)`) para permitir a repetição controlada da geração dos dados no ambiente testado. O arquivo `reference/dashboard_data_referencia.json` registra o objeto analítico de referência.
 
-A execucao utiliza semente aleatoria fixa (`random.seed(42)`), o que permite regenerar a mesma base sintetica e repetir o processamento de ponta a ponta. O arquivo de referencia em `reference/dashboard_data_referencia.json` permite comparar automaticamente os resultados produzidos pela nova execucao.
+O programa `validar_pipeline.py` exige os artefatos obrigatórios, recalcula os indicadores diretamente do banco SQLite, reconstrói as principais saídas analíticas e encerra com falha quando identifica ausência ou divergência material.
 
 ## Requisitos
 
@@ -23,9 +24,9 @@ Instalação:
 python -m pip install -r requirements.txt
 ```
 
-## Execução em uma única etapa
+## Execução completa
 
-A partir da raiz do projeto:
+Na raiz do projeto:
 
 ```bash
 python executar_pipeline.py
@@ -49,35 +50,42 @@ Também é possível executar cada script separadamente.
 - `data/processed/dashboard_data.json`: indicadores, Curva ABC e previsão
 - `data/processed/validacao_previsao.json`: validação temporal retrospectiva
 - `dashboard.html`: painel analítico
-- `logs/validacao_pipeline.json`: manifesto de validação
+- `logs/validacao_pipeline.json`: manifesto estruturado da validação
 
-## Resultados centrais reproduzidos
+## Resultados de referência
 
 | Indicador | Resultado |
 |---|---:|
 | Registros brutos | 7.429 |
-| Registros válidos | 7.320 |
-| Duplicidades removidas | 109 |
-| Categorias reconstituídas | 310 |
+| Duplicidades exatas removidas | 109 |
+| Registros finais | 7.320 |
+| Campos de categoria ausentes na base bruta | 310 |
+| Registros finais derivados dessas linhas | 305 |
 | Produtos | 30 |
 | Categorias | 5 |
 | Faturamento bruto | R$ 1.606.086,63 |
 | Devoluções | R$ 54.767,59 |
 | Faturamento líquido | R$ 1.551.319,04 |
-| Itens vendidos | 14.584 |
+| Itens vendidos, excluídas as devoluções | 14.584 |
 | Valor médio por operação | R$ 211,93 |
 | R² da regressão sobre 24 meses | 0,305 |
 
+A diferença entre 310 e 305 decorre de cinco linhas com categoria ausente que também pertenciam ao conjunto de duplicidades exatas removidas.
+
+## Padronização da loja
+
+A base bruta contém duas grafias para a única unidade simulada: `Matriz - Recife` e `matriz-recife`. Há 61 ocorrências da grafia alternativa na base bruta. Após a remoção das duplicidades, 59 desses registros permanecem no conjunto final e são padronizados como `Matriz - Recife`. A tabela fato passa a conter uma única identificação de loja.
+
 ## Validação temporal retrospectiva
 
-Para responder à recomendação da orientação, os últimos três meses observados, outubro a dezembro de 2025, foram separados como teste. Os modelos foram ajustados apenas com janeiro de 2024 a setembro de 2025.
+Os últimos três meses observados, outubro a dezembro de 2025, são usados como janela de teste. Os modelos são ajustados apenas com janeiro de 2024 a setembro de 2025. As métricas são calculadas com as estimativas em precisão integral e arredondadas apenas na apresentação.
 
 | Modelo | MAE | RMSE | MAPE |
 |---|---:|---:|---:|
 | Regressão linear | R$ 23.264,63 | R$ 24.684,15 | 25,21% |
 | Média móvel de 3 meses | R$ 27.777,72 | R$ 33.533,21 | 27,23% |
 
-O teste é exploratório e contém apenas três observações. Não permite afirmar superioridade geral entre modelos nem substituir uma validação com série mais longa e dados reais.
+O teste é exploratório e contém apenas três observações. Ele não permite afirmar superioridade geral entre modelos nem substitui validação com série mais longa e dados reais.
 
 ## Estrutura do modelo
 
@@ -88,15 +96,15 @@ O banco possui quatro tabelas:
 - `dim_produto`
 - `dim_categoria`
 
-A tabela fato se relaciona diretamente com tempo e produto. A categoria é mantida em tabela própria ligada ao produto. Por isso, o modelo é descrito como **dimensional parcialmente normalizado**, com característica de floco de neve.
+A tabela fato se relaciona diretamente com tempo e produto. A categoria é mantida em tabela própria ligada ao produto. Por isso, o modelo é descrito como **dimensional parcialmente normalizado, com característica de floco de neve**.
 
 ## Dashboard
 
-O arquivo `dashboard.html` incorpora os dados analíticos no próprio HTML e não requer servidor web. A biblioteca Chart.js é carregada por CDN. Assim, os gráficos exigem acesso à internet no momento da abertura, salvo se a dependência for armazenada localmente.
+O arquivo `dashboard.html` incorpora o objeto analítico no próprio HTML e não requer servidor web. A biblioteca Chart.js é carregada por CDN. Portanto, a visualização dos gráficos requer acesso à internet no momento da abertura, salvo se a dependência for armazenada localmente.
 
 ## Dados sintéticos
 
-Os dados foram gerados com `random.seed(42)`. Eles simulam uma loja varejista fictícia entre janeiro de 2024 e dezembro de 2025. Não correspondem a uma empresa real e não contêm dados pessoais.
+Os dados simulam uma loja varejista fictícia entre janeiro de 2024 e dezembro de 2025. Não correspondem a uma empresa real e não contêm dados pessoais.
 
 ## Auditoria
 
@@ -106,13 +114,26 @@ Execute:
 python validar_pipeline.py
 ```
 
-O validador confere:
+O validador confere, entre outros pontos:
 
-- existência das tabelas esperadas;
-- quantidade de registros e identificadores distintos;
-- integridade referencial lógica;
-- KPIs financeiros;
-- R² da regressão;
-- igualdade do JSON reproduzido com o artefato de referência;
-- métricas do teste retrospectivo.
+- estrutura e volume do CSV bruto
+- duplicidades deliberadamente introduzidas
+- estrutura e integridade lógica do banco SQLite
+- identificação única da loja após o ETL
+- KPIs financeiros recalculados diretamente do banco
+- série mensal, ranking de categorias e Curva ABC
+- regressão, R² e previsões
+- validação temporal retrospectiva
+- correspondência entre JSON analítico, dashboard e artefato de referência
 
+Uma execução consistente termina com:
+
+```text
+VALIDAÇÃO CONCLUÍDA: APROVADO
+```
+
+Os registros da execução de referência, o resumo dos testes negativos e os resumos SHA-256 dos arquivos estão em `logs/`.
+
+## Limites
+
+A reprodução confirma o comportamento do artefato no cenário sintético e no ambiente testado. Ela não equivale a validação externa em empresas reais nem demonstra impacto econômico ou causal sobre a qualidade da decisão gerencial.

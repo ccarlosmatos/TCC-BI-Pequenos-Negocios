@@ -1,0 +1,282 @@
+{
+  "status": "APROVADO",
+  "checks": [
+    {
+      "status": "OK",
+      "verificacao": "Artefato obrigatório: CSV bruto",
+      "detalhes": "data/raw/vendas_bruto.csv"
+    },
+    {
+      "status": "OK",
+      "verificacao": "Artefato obrigatório: Banco SQLite",
+      "detalhes": "data/processed/dw_vendas.sqlite3"
+    },
+    {
+      "status": "OK",
+      "verificacao": "Artefato obrigatório: JSON analítico",
+      "detalhes": "data/processed/dashboard_data.json"
+    },
+    {
+      "status": "OK",
+      "verificacao": "Artefato obrigatório: Validação retrospectiva",
+      "detalhes": "data/processed/validacao_previsao.json"
+    },
+    {
+      "status": "OK",
+      "verificacao": "Artefato obrigatório: Dashboard HTML",
+      "detalhes": "dashboard.html"
+    },
+    {
+      "status": "OK",
+      "verificacao": "Artefato obrigatório: JSON de referência",
+      "detalhes": "reference/dashboard_data_referencia.json"
+    },
+    {
+      "status": "OK",
+      "verificacao": "Cabeçalho do CSV bruto",
+      "detalhes": "['id_venda', 'data_venda', 'produto', 'categoria', 'quantidade', 'preco_unitario', 'forma_pagamento', 'loja']"
+    },
+    {
+      "status": "OK",
+      "verificacao": "Quantidade de registros brutos",
+      "detalhes": "7429"
+    },
+    {
+      "status": "OK",
+      "verificacao": "Duplicidades exatas no CSV bruto",
+      "detalhes": "109"
+    },
+    {
+      "status": "OK",
+      "verificacao": "Campos de categoria ausentes no CSV bruto",
+      "detalhes": "310"
+    },
+    {
+      "status": "OK",
+      "verificacao": "Registros finais derivados de linhas com categoria ausente",
+      "detalhes": "305"
+    },
+    {
+      "status": "OK",
+      "verificacao": "JSON analítico idêntico ao artefato de referência",
+      "detalhes": ""
+    },
+    {
+      "status": "OK",
+      "verificacao": "Estrutura de primeiro nível do JSON analítico",
+      "detalhes": "['curva_abc', 'kpis', 'previsao', 'ranking_categorias', 'serie_mensal']"
+    },
+    {
+      "status": "OK",
+      "verificacao": "Quatro tabelas do modelo dimensional",
+      "detalhes": "['dim_categoria', 'dim_produto', 'dim_tempo', 'fato_vendas']"
+    },
+    {
+      "status": "OK",
+      "verificacao": "Quantidade de linhas da fato",
+      "detalhes": "7320"
+    },
+    {
+      "status": "OK",
+      "verificacao": "Identificadores distintos de venda",
+      "detalhes": "7320"
+    },
+    {
+      "status": "OK",
+      "verificacao": "Unicidade de id_venda_origem na base sintética",
+      "detalhes": "linhas=7320, ids=7320"
+    },
+    {
+      "status": "OK",
+      "verificacao": "Quantidade de registros em dim_tempo",
+      "detalhes": "731"
+    },
+    {
+      "status": "OK",
+      "verificacao": "Quantidade de registros em dim_categoria",
+      "detalhes": "5"
+    },
+    {
+      "status": "OK",
+      "verificacao": "Quantidade de registros em dim_produto",
+      "detalhes": "30"
+    },
+    {
+      "status": "OK",
+      "verificacao": "Movimentos positivos",
+      "detalhes": "7094"
+    },
+    {
+      "status": "OK",
+      "verificacao": "Movimentos de devolução",
+      "detalhes": "226"
+    },
+    {
+      "status": "OK",
+      "verificacao": "Identificação da loja padronizada",
+      "detalhes": "['Matriz - Recife']"
+    },
+    {
+      "status": "OK",
+      "verificacao": "Integridade referencial lógica",
+      "detalhes": "tempo=0, produto=0, categoria=0"
+    },
+    {
+      "status": "OK",
+      "verificacao": "KPI faturamento_bruto recalculado do SQLite",
+      "detalhes": "1606086.63"
+    },
+    {
+      "status": "OK",
+      "verificacao": "SQLite x JSON: faturamento_bruto",
+      "detalhes": "db=1606086.63, json=1606086.63"
+    },
+    {
+      "status": "OK",
+      "verificacao": "KPI total_devolucoes recalculado do SQLite",
+      "detalhes": "54767.59"
+    },
+    {
+      "status": "OK",
+      "verificacao": "SQLite x JSON: total_devolucoes",
+      "detalhes": "db=54767.59, json=54767.59"
+    },
+    {
+      "status": "OK",
+      "verificacao": "KPI faturamento_liquido recalculado do SQLite",
+      "detalhes": "1551319.04"
+    },
+    {
+      "status": "OK",
+      "verificacao": "SQLite x JSON: faturamento_liquido",
+      "detalhes": "db=1551319.04, json=1551319.04"
+    },
+    {
+      "status": "OK",
+      "verificacao": "KPI ticket_medio recalculado do SQLite",
+      "detalhes": "211.93"
+    },
+    {
+      "status": "OK",
+      "verificacao": "SQLite x JSON: ticket_medio",
+      "detalhes": "db=211.93, json=211.93"
+    },
+    {
+      "status": "OK",
+      "verificacao": "KPI n_transacoes recalculado do SQLite",
+      "detalhes": "7320"
+    },
+    {
+      "status": "OK",
+      "verificacao": "SQLite x JSON: n_transacoes",
+      "detalhes": "db=7320, json=7320"
+    },
+    {
+      "status": "OK",
+      "verificacao": "KPI itens_vendidos recalculado do SQLite",
+      "detalhes": "14584"
+    },
+    {
+      "status": "OK",
+      "verificacao": "SQLite x JSON: itens_vendidos",
+      "detalhes": "db=14584, json=14584"
+    },
+    {
+      "status": "OK",
+      "verificacao": "Série mensal recalculada do SQLite coincide com JSON",
+      "detalhes": ""
+    },
+    {
+      "status": "OK",
+      "verificacao": "Série mensal com 24 observações",
+      "detalhes": "24"
+    },
+    {
+      "status": "OK",
+      "verificacao": "Ranking de categorias recalculado do SQLite coincide com JSON",
+      "detalhes": ""
+    },
+    {
+      "status": "OK",
+      "verificacao": "Curva ABC recalculada do SQLite coincide com JSON",
+      "detalhes": ""
+    },
+    {
+      "status": "OK",
+      "verificacao": "R² recalculado a partir do SQLite",
+      "detalhes": "0.305"
+    },
+    {
+      "status": "OK",
+      "verificacao": "Intercepto recalculado coincide com JSON",
+      "detalhes": ""
+    },
+    {
+      "status": "OK",
+      "verificacao": "Inclinação recalculada coincide com JSON",
+      "detalhes": ""
+    },
+    {
+      "status": "OK",
+      "verificacao": "R² recalculado coincide com JSON",
+      "detalhes": ""
+    },
+    {
+      "status": "OK",
+      "verificacao": "Previsão por regressão recalculada coincide com JSON",
+      "detalhes": ""
+    },
+    {
+      "status": "OK",
+      "verificacao": "Previsão por média móvel recalculada coincide com JSON",
+      "detalhes": ""
+    },
+    {
+      "status": "OK",
+      "verificacao": "Meses do backtest coincidem com a série do banco",
+      "detalhes": ""
+    },
+    {
+      "status": "OK",
+      "verificacao": "Valores realizados do backtest coincidem com o banco",
+      "detalhes": ""
+    },
+    {
+      "status": "OK",
+      "verificacao": "Previsões do backtest por regressão recalculadas",
+      "detalhes": ""
+    },
+    {
+      "status": "OK",
+      "verificacao": "Previsões do backtest por média móvel recalculadas",
+      "detalhes": ""
+    },
+    {
+      "status": "OK",
+      "verificacao": "Métricas do backtest por regressão recalculadas",
+      "detalhes": "{'mae': 23264.63, 'rmse': 24684.15, 'mape_pct': 25.21}"
+    },
+    {
+      "status": "OK",
+      "verificacao": "Métricas do backtest por média móvel recalculadas",
+      "detalhes": "{'mae': 27777.72, 'rmse': 33533.21, 'mape_pct': 27.23}"
+    },
+    {
+      "status": "OK",
+      "verificacao": "Dados incorporados ao dashboard idênticos ao JSON analítico",
+      "detalhes": ""
+    }
+  ],
+  "sha256": {
+    "data/raw/vendas_bruto.csv": "5d778649a78704866d2de0f67b87612c208e32df4eec7b74ab2adca0de979626",
+    "data/processed/dw_vendas.sqlite3": "d9ff81ef745b6299b185a29f9907207697efd051682851e6842fb8e4efa890d6",
+    "data/processed/dashboard_data.json": "20e80ff9d7d45d80feca8a484a944a006bbc965ea002f59e306c09b7f856fae8",
+    "data/processed/validacao_previsao.json": "12de3dc3b064f971bf16f395fb41a1a37fdd4f27da463492f186dfc9a596af1c",
+    "dashboard.html": "3ce65abd90531d2f35ae73d70504c749675e376d9bed806cc495578a31daceef",
+    "reference/dashboard_data_referencia.json": "20e80ff9d7d45d80feca8a484a944a006bbc965ea002f59e306c09b7f856fae8"
+  },
+  "observacoes": [
+    "O SQLite é validado por conteúdo lógico e resultados recalculados. Igualdade binária entre bancos recriados não é exigida.",
+    "A validação temporal usa somente três meses de teste e deve ser interpretada como verificação exploratória."
+  ]
+}
