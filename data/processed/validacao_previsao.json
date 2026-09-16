@@ -1,0 +1,48 @@
+{
+  "metodo": "holdout_temporal_3_meses",
+  "treino": {
+    "inicio": "2024-01",
+    "fim": "2025-09",
+    "n_meses": 21
+  },
+  "teste": {
+    "inicio": "2025-10",
+    "fim": "2025-12",
+    "n_meses": 3
+  },
+  "meses_teste": [
+    "2025-10",
+    "2025-11",
+    "2025-12"
+  ],
+  "realizado": [
+    60730.34,
+    100712.38,
+    105433.46
+  ],
+  "regressao_linear": {
+    "previsoes": [
+      72523.54,
+      73556.23,
+      74588.92
+    ],
+    "metricas": {
+      "mae": 23264.63,
+      "rmse": 24684.15,
+      "mape_pct": 25.21
+    }
+  },
+  "media_movel_3m": {
+    "previsoes": [
+      62082.33,
+      62082.33,
+      62082.33
+    ],
+    "metricas": {
+      "mae": 27777.72,
+      "rmse": 33533.21,
+      "mape_pct": 27.23
+    }
+  },
+  "observacao": "Validação retrospectiva simples. A amostra é curta e os resultados não substituem avaliação em série mais longa ou dados reais."
+}

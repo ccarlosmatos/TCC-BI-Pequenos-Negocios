@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Dashboard BI — Nordeste Variedades Ltda.</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  :root {
+    --bg: #0f1420; --card: #1a2232; --accent: #4f8ff7; --accent2: #34d399;
+    --text: #e8ecf4; --muted: #93a1b8; --border: #2a3448;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; font-family: -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    background: var(--bg); color: var(--text); padding: 24px 32px 48px;
+  }
+  h1 { font-size: 22px; font-weight: 600; margin: 0 0 4px; }
+  .subtitle { color: var(--muted); font-size: 13px; margin-bottom: 24px; }
+  .kpi-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 14px; margin-bottom: 28px;
+  }
+  .kpi-card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+    padding: 16px 18px;
+  }
+  .kpi-card .label { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .04em; }
+  .kpi-card .value { font-size: 22px; font-weight: 700; margin-top: 6px; }
+  .grid-2 { display: grid; grid-template-columns: 2fr 1fr; gap: 16px; margin-bottom: 16px; }
+  .card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 18px;
+  }
+  .card h2 { font-size: 14px; margin: 0 0 14px; color: var(--text); font-weight: 600; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th, td { text-align: left; padding: 6px 4px; border-bottom: 1px solid var(--border); }
+  th { color: var(--muted); font-weight: 500; }
+  .classe-A { color: var(--accent2); font-weight: 600; }
+  .classe-B { color: #f5c451; font-weight: 600; }
+  .classe-C { color: #93a1b8; }
+  .footer-note { color: var(--muted); font-size: 11px; margin-top: 24px; }
+</style>
+</head>
+<body>
+<h1>Nordeste Variedades Ltda. — Painel Analítico de Vendas</h1>
+<div class="subtitle">Dashboard gerado a partir do modelo dimensional parcialmente normalizado construído no pipeline de ETL — período 2024–2025, com previsão para o 1º trimestre de 2026</div>
+
+<div class="kpi-grid">
+  <div class="kpi-card"><div class="label">Faturamento Líquido</div><div class="value">R$ 1.551.319,04</div></div>
+  <div class="kpi-card"><div class="label">Faturamento Bruto</div><div class="value">R$ 1.606.086,63</div></div>
+  <div class="kpi-card"><div class="label">Devoluções</div><div class="value">R$ 54.767,59</div></div>
+  <div class="kpi-card"><div class="label">Operações contabilizadas</div><div class="value">7.320</div></div>
+  <div class="kpi-card"><div class="label">Itens Vendidos</div><div class="value">14.584</div></div>
+  <div class="kpi-card"><div class="label">Valor médio por operação</div><div class="value">R$ 211,93</div></div>
+</div>
+
+<div class="grid-2">
+  <div class="card">
+    <h2>Faturamento Mensal — Histórico e Previsão (Regressão Linear)</h2>
+    <canvas id="chartSerie" height="110"></canvas>
+  </div>
+  <div class="card">
+    <h2>Faturamento por Categoria</h2>
+    <canvas id="chartCategoria" height="140"></canvas>
+  </div>
+</div>
+
+<div class="grid-2">
+  <div class="card">
+    <h2>Curva ABC — Distribuição do Faturamento por Produto</h2>
+    <canvas id="chartABC" height="120"></canvas>
+  </div>
+  <div class="card">
+    <h2>Classificação ABC dos Produtos (Top 10)</h2>
+    <table>
+      <thead><tr><th>Produto</th><th>Faturamento</th><th>% Acum.</th><th>Classe</th></tr></thead>
+      <tbody>
+        <tr><td>Escova De Limpeza</td><td>R$ 111.542,26</td><td>6.9%</td><td class='classe-A'>A</td></tr><tr><td>Camiseta Básica</td><td>R$ 103.605,04</td><td>13.4%</td><td class='classe-A'>A</td></tr><tr><td>Kit Panelas Antiaderente</td><td>R$ 103.213,47</td><td>19.8%</td><td class='classe-A'>A</td></tr><tr><td>Caderno Universitário</td><td>R$ 96.696,41</td><td>25.8%</td><td class='classe-A'>A</td></tr><tr><td>Power Bank 10000mah</td><td>R$ 95.622,41</td><td>31.8%</td><td class='classe-A'>A</td></tr><tr><td>Mochila Escolar</td><td>R$ 91.200,64</td><td>37.5%</td><td class='classe-A'>A</td></tr><tr><td>Porta Sabonete</td><td>R$ 90.888,44</td><td>43.1%</td><td class='classe-A'>A</td></tr><tr><td>Fone De Ouvido Bluetooth</td><td>R$ 82.779,49</td><td>48.3%</td><td class='classe-A'>A</td></tr><tr><td>Estojo Simples</td><td>R$ 81.065,38</td><td>53.3%</td><td class='classe-A'>A</td></tr><tr><td>Mouse Sem Fio</td><td>R$ 79.290,01</td><td>58.3%</td><td class='classe-A'>A</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="footer-note">
+  Modelo de previsão: regressão linear simples sobre a série mensal de faturamento (R² = 0.305).
+  Trabalho de Conclusão de Curso — Especialização em Business Intelligence, Business Analytics e Big Data Aplicados a Negócios — FAFIRE.
+</div>
+
+<script>
+const dados = {"kpis": {"faturamento_bruto": 1606086.63, "total_devolucoes": 54767.59, "faturamento_liquido": 1551319.04, "n_transacoes": 7320, "itens_vendidos": 14584, "ticket_medio": 211.93}, "serie_mensal": [{"ano_mes": "2024-01", "faturamento": 41258.5}, {"ano_mes": "2024-02", "faturamento": 33961.43}, {"ano_mes": "2024-03", "faturamento": 51094.62}, {"ano_mes": "2024-04", "faturamento": 46311.9}, {"ano_mes": "2024-05", "faturamento": 69086.25}, {"ano_mes": "2024-06", "faturamento": 83167.37}, {"ano_mes": "2024-07", "faturamento": 58540.32}, {"ano_mes": "2024-08", "faturamento": 54758.48}, {"ano_mes": "2024-09", "faturamento": 57586.85}, {"ano_mes": "2024-10", "faturamento": 53307.81}, {"ano_mes": "2024-11", "faturamento": 78278.29}, {"ano_mes": "2024-12", "faturamento": 86094.78}, {"ano_mes": "2025-01", "faturamento": 42320.1}, {"ano_mes": "2025-02", "faturamento": 50001.03}, {"ano_mes": "2025-03", "faturamento": 63934.74}, {"ano_mes": "2025-04", "faturamento": 53488.13}, {"ano_mes": "2025-05", "faturamento": 92874.88}, {"ano_mes": "2025-06", "faturamento": 82130.39}, {"ano_mes": "2025-07", "faturamento": 62736.05}, {"ano_mes": "2025-08", "faturamento": 69455.43}, {"ano_mes": "2025-09", "faturamento": 54055.51}, {"ano_mes": "2025-10", "faturamento": 60730.34}, {"ano_mes": "2025-11", "faturamento": 100712.38}, {"ano_mes": "2025-12", "faturamento": 105433.46}], "ranking_categorias": [{"categoria": "Casa E Utilidades", "faturamento": 365878.35}, {"categoria": "Eletrônicos", "faturamento": 325570.89}, {"categoria": "Papelaria", "faturamento": 322288.26}, {"categoria": "Alimentos", "faturamento": 276667.34}, {"categoria": "Vestuário", "faturamento": 260914.2}], "curva_abc": [{"produto": "Escova De Limpeza", "faturamento": 111542.26, "pct_acumulado": 6.9, "classe": "A"}, {"produto": "Camiseta Básica", "faturamento": 103605.04, "pct_acumulado": 13.4, "classe": "A"}, {"produto": "Kit Panelas Antiaderente", "faturamento": 103213.47, "pct_acumulado": 19.8, "classe": "A"}, {"produto": "Caderno Universitário", "faturamento": 96696.41, "pct_acumulado": 25.8, "classe": "A"}, {"produto": "Power Bank 10000mah", "faturamento": 95622.41, "pct_acumulado": 31.8, "classe": "A"}, {"produto": "Mochila Escolar", "faturamento": 91200.64, "pct_acumulado": 37.5, "classe": "A"}, {"produto": "Porta Sabonete", "faturamento": 90888.44, "pct_acumulado": 43.1, "classe": "A"}, {"produto": "Fone De Ouvido Bluetooth", "faturamento": 82779.49, "pct_acumulado": 48.3, "classe": "A"}, {"produto": "Estojo Simples", "faturamento": 81065.38, "pct_acumulado": 53.3, "classe": "A"}, {"produto": "Mouse Sem Fio", "faturamento": 79290.01, "pct_acumulado": 58.3, "classe": "A"}, {"produto": "Suco De Caju 1l", "faturamento": 79037.57, "pct_acumulado": 63.2, "classe": "A"}, {"produto": "Amendoim Torrado", "faturamento": 78346.18, "pct_acumulado": 68.1, "classe": "A"}, {"produto": "Barra De Cereal", "faturamento": 68458.6, "pct_acumulado": 72.3, "classe": "A"}, {"produto": "Chinelo De Dedo", "faturamento": 65948.7, "pct_acumulado": 76.4, "classe": "A"}, {"produto": "Boné Aba Reta", "faturamento": 52404.15, "pct_acumulado": 79.7, "classe": "A"}, {"produto": "Jogo De Toalhas", "faturamento": 39806.73, "pct_acumulado": 82.2, "classe": "B"}, {"produto": "Caixa De Som Portátil", "faturamento": 39143.08, "pct_acumulado": 84.6, "classe": "B"}, {"produto": "Marcador De Texto", "faturamento": 37906.84, "pct_acumulado": 87.0, "classe": "B"}, {"produto": "Cabo Hdmi", "faturamento": 31033.16, "pct_acumulado": 88.9, "classe": "B"}, {"produto": "Água De Coco 500ml", "faturamento": 28479.09, "pct_acumulado": 90.7, "classe": "B"}, {"produto": "Biscoito Recheado", "faturamento": 27469.37, "pct_acumulado": 92.4, "classe": "B"}, {"produto": "Jaqueta Corta-vento", "faturamento": 26510.67, "pct_acumulado": 94.0, "classe": "B"}, {"produto": "Cola Bastão", "faturamento": 23548.96, "pct_acumulado": 95.5, "classe": "C"}, {"produto": "Organizador De Gaveta", "faturamento": 16819.8, "pct_acumulado": 96.6, "classe": "C"}, {"produto": "Vela Aromática", "faturamento": 15730.75, "pct_acumulado": 97.5, "classe": "C"}, {"produto": "Bermuda Jeans", "faturamento": 13673.13, "pct_acumulado": 98.4, "classe": "C"}, {"produto": "Meia Esportiva", "faturamento": 8301.14, "pct_acumulado": 98.9, "classe": "C"}, {"produto": "Carregador Usb-c", "faturamento": 6604.6, "pct_acumulado": 99.3, "classe": "C"}, {"produto": "Café Torrado 500g", "faturamento": 6391.71, "pct_acumulado": 99.7, "classe": "C"}, {"produto": "Caneta Esferográfica", "faturamento": 4568.85, "pct_acumulado": 100.0, "classe": "C"}], "previsao": {"coeficientes": {"intercepto": 47484.19, "inclinacao": 1491.66, "r2": 0.305}, "meses_futuros": ["2026-01", "2026-02", "2026-03"], "previsao_regressao_linear": [83284.05, 84775.72, 86267.38], "previsao_media_movel_3m": [88958.73, 88958.73, 88958.73]}};
+
+new Chart(document.getElementById('chartSerie'), {
+  type: 'line',
+  data: {
+    labels: ["2024-01", "2024-02", "2024-03", "2024-04", "2024-05", "2024-06", "2024-07", "2024-08", "2024-09", "2024-10", "2024-11", "2024-12", "2025-01", "2025-02", "2025-03", "2025-04", "2025-05", "2025-06", "2025-07", "2025-08", "2025-09", "2025-10", "2025-11", "2025-12", "2026-01", "2026-02", "2026-03"],
+    datasets: [
+      {
+        label: 'Faturamento realizado',
+        data: [41258.5, 33961.43, 51094.62, 46311.9, 69086.25, 83167.37, 58540.32, 54758.48, 57586.85, 53307.81, 78278.29, 86094.78, 42320.1, 50001.03, 63934.74, 53488.13, 92874.88, 82130.39, 62736.05, 69455.43, 54055.51, 60730.34, 100712.38, 105433.46, null, null, null],
+        borderColor: '#4f8ff7', backgroundColor: 'rgba(79,143,247,0.15)',
+        tension: 0.25, fill: true, spanGaps: false,
+      },
+      {
+        label: 'Previsão (regressão linear)',
+        data: [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 105433.46, 83284.05, 84775.72, 86267.38],
+        borderColor: '#34d399', borderDash: [6,4],
+        tension: 0.25, fill: false, spanGaps: false,
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    plugins: { legend: { labels: { color: '#e8ecf4' } } },
+    scales: {
+      x: { ticks: { color: '#93a1b8' }, grid: { color: '#2a3448' } },
+      y: { ticks: { color: '#93a1b8' }, grid: { color: '#2a3448' } }
+    }
+  }
+});
+
+new Chart(document.getElementById('chartCategoria'), {
+  type: 'bar',
+  data: {
+    labels: ["Casa E Utilidades", "Eletr\u00f4nicos", "Papelaria", "Alimentos", "Vestu\u00e1rio"],
+    datasets: [{
+      label: 'Faturamento (R$)',
+      data: [365878.35, 325570.89, 322288.26, 276667.34, 260914.2],
+      backgroundColor: '#4f8ff7'
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { ticks: { color: '#93a1b8' }, grid: { color: '#2a3448' } },
+      y: { ticks: { color: '#93a1b8' }, grid: { display: false } }
+    }
+  }
+});
+
+new Chart(document.getElementById('chartABC'), {
+  type: 'line',
+  data: {
+    labels: ["Escova De Limpeza", "Camiseta B\u00e1sica", "Kit Panelas Antiaderente", "Caderno Universit\u00e1rio", "Power Bank 10000mah", "Mochila Escolar", "Porta Sabonete", "Fone De Ouvido Bluetooth", "Estojo Simples", "Mouse Sem Fio", "Suco De Caju 1l", "Amendoim Torrado", "Barra De Cereal", "Chinelo De Dedo", "Bon\u00e9 Aba Reta", "Jogo De Toalhas", "Caixa De Som Port\u00e1til", "Marcador De Texto", "Cabo Hdmi", "\u00c1gua De Coco 500ml", "Biscoito Recheado", "Jaqueta Corta-vento", "Cola Bast\u00e3o", "Organizador De Gaveta", "Vela Arom\u00e1tica", "Bermuda Jeans", "Meia Esportiva", "Carregador Usb-c", "Caf\u00e9 Torrado 500g", "Caneta Esferogr\u00e1fica"],
+    datasets: [{
+      label: '% Acumulado do Faturamento',
+      data: [6.9, 13.4, 19.8, 25.8, 31.8, 37.5, 43.1, 48.3, 53.3, 58.3, 63.2, 68.1, 72.3, 76.4, 79.7, 82.2, 84.6, 87.0, 88.9, 90.7, 92.4, 94.0, 95.5, 96.6, 97.5, 98.4, 98.9, 99.3, 99.7, 100.0],
+      borderColor: '#f5c451', backgroundColor: 'rgba(245,196,81,0.1)',
+      fill: true, tension: 0.15, pointRadius: 2,
+    }]
+  },
+  options: {
+    plugins: { legend: { labels: { color: '#e8ecf4' } } },
+    scales: {
+      x: { ticks: { display: false }, grid: { display: false } },
+      y: { ticks: { color: '#93a1b8' }, grid: { color: '#2a3448' }, min: 0, max: 100 }
+    }
+  }
+});
+</script>
+</body>
+</html>
